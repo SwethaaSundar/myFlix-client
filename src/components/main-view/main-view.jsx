@@ -7,7 +7,7 @@ export const MainView = () => {
     fetch("https://myflixdb-0sx9.onrender.com/movies")
       .then((response) => response.json())
       .then((data) => setMovies(data));
-  });
+  }, []);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   if (selectedMovie) {
