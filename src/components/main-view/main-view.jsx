@@ -1,50 +1,89 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-export const MainView = () => {
-  const [movies, setMovies] = useState([
-    {
-      id: 1,
-      title: "Snow White and the 7 Dwarfs",
-      description:
-        "The jealous Evil Queen decided to be rid of Snow White so that she would be fairest in the land, but the spell can be broken by True Love's Kiss.",
-      image:
-        "https://m.media-amazon.com/images/P/B00GK523GS.01._SCLZZZZZZZ_SX500_.jpg",
-      genre: "Fantasy",
-      director: "David Dodd Hand",
-    },
-    {
-      id: 2,
-      title: "Cinderella",
-      description:
-        "Cinderella is a dreamer who is trapped within a step-family who doesn't love or appreciate her. Enslaved by her evil stepmother and stepsisters, Cinderella dreams of going to the ball and meeting the Prince. With the help of a few mice friends and her fairy Godmother, Cinderella's dream comes true.",
-      image: "https://m.media-amazon.com/images/I/918LXIZ5JWL.jpg",
-      genre: "Fantasy",
-      director: "Kenneth Charles Branagh",
-    },
-    {
-      id: 3,
-      title: "Sleeping Beauty",
-      description:
-        "When Maleficent curses Princess Aurora at birth, the three good fairies hide her, but one of the faintest hopes is that with true love's kiss, the spell shall break.",
-      image:
-        "https://m.media-amazon.com/images/I/51xuD6F4LmL._SX412_BO1,204,203,200_.jpg",
-      genre: "Animation",
-      director: "Wolfgang Reitherman",
-    },
-  ]);
+import { LoginView } from "../login-view/login-view";
+import { SignupView } from "../signnup-view/signup-view";
 
+export const MainView = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
+  // useEffect(() => {
+  //   // myFlix API
+  //   fetch("https://myflixdb-0sx9.onrender.com/movies")
+  //     .then((response) => response.json())
+  //     .then((data) => setMovies(data));
+  // }, []); // dependency array
+
+  useEffect(() => {
+    if (!token) return;
+
+    fetch("https://myflixdb-0sx9.onrender.com/movies", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((data) => setMovies(data));
+  }, [token]);
+
+  // login
+  if (!user) {
+    return (
+      <>
+        <h2>Login</h2>
+        <LoginView
+          onLoggedIn={(user, token) => {
+            setUser(user);
+            setToken(token);
+          }}
+        />
+        <br />
+        <h2>Signup</h2>
+        <SignupView />
+      </>
+    );
+  }
+
   if (selectedMovie) {
     return (
-      <MovieView
-        movie={selectedMovie}
-        onBackClick={() => setSelectedMovie(null)}
-      />
+      <>
+        <MovieView
+          movie={selectedMovie}
+          onBackClick={() => setSelectedMovie(null)}
+        />
+        <br />
+        <button
+          onClick={() => {
+            {
+              setUser(null);
+              setToken(null);
+            }
+          }}
+        >
+          Logout
+        </button>
+      </>
     );
   }
   if (movies.length === 0) {
-    return <div>The movie list is empty!!</div>;
+    return (
+      <>
+        <div>The movie list is empty!!</div>
+        <br />
+        <button
+          onClick={() => {
+            {
+              setUser(null);
+              setToken(null);
+            }
+          }}
+        >
+          Logout
+        </button>
+      </>
+    );
   }
   return (
     <div>
@@ -57,6 +96,18 @@ export const MainView = () => {
           }}
         />
       ))}
+      <br />
+      <button
+        onClick={() => {
+          {
+            setUser(null);
+            setToken(null);
+            localStorage.clear();
+          }
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 };
