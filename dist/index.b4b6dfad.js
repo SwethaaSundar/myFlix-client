@@ -27293,7 +27293,7 @@ const MainView = ()=>{
     const [movies, setMovies] = (0, _react.useState)([]);
     (0, _react.useEffect)(()=>{
         fetch("https://myflixdb-0sx9.onrender.com/movies").then((response)=>response.json()).then((data)=>setMovies(data));
-    });
+    }, []);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
     if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
         movie: selectedMovie,

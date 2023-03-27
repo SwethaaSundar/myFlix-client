@@ -4,10 +4,11 @@ import { MovieView } from "../movie-view/movie-view";
 export const MainView = () => {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
+    // myFlix API
     fetch("https://myflixdb-0sx9.onrender.com/movies")
       .then((response) => response.json())
       .then((data) => setMovies(data));
-  }, []);
+  }, []); // dependency array
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   if (selectedMovie) {
