@@ -27292,6 +27292,7 @@ var _signupView = require("../signnup-view/signup-view");
 var _s = $RefreshSig$();
 const MainView = ()=>{
     _s();
+
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const storedToken = localStorage.getItem("token");
     const [movies, setMovies] = (0, _react.useState)([]);
@@ -27360,7 +27361,7 @@ const MainView = ()=>{
                 onBackClick: ()=>setSelectedMovie(null)
             }, void 0, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 52,
+                lineNumber: 27,
                 columnNumber: 9
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
@@ -27445,6 +27446,7 @@ const MainView = ()=>{
     }, undefined);
 };
 _s(MainView, "hFDxRpIbGxP6+QKMAcm8hX/Ql7A=");
+
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -28774,5 +28776,6 @@ $RefreshReg$(_c, "SignupView");
   window.$RefreshSig$ = prevRefreshSig;
 }
 },{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"6otMK","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"iiZu7","react":"21dqq"}]},["gHaod","1kMzV","d8Dch"], "d8Dch", "parcelRequireaec4")
+
 
 //# sourceMappingURL=index.b4b6dfad.js.map

@@ -45,7 +45,6 @@ export const MainView = () => {
       </>
     );
   }
-
   if (selectedMovie) {
     return (
       <>
