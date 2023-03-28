@@ -28655,7 +28655,7 @@ const SignupView = ()=>{
             Password: password,
             Email: email
         };
-        fetch("SIGNUP_URL", {
+        fetch("https://myflixdb-0sx9.onrender.com/users", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
