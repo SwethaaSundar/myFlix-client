@@ -5,7 +5,6 @@ export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
-        {/* <span>Title: </span> */}
         <span class="h2">
           <center>{movie.title}</center>
         </span>
