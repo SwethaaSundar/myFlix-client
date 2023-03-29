@@ -1,37 +1,61 @@
 import PropType from "prop-types";
+import { Button } from "react-bootstrap";
+import "./movie-view.scss";
 export const MovieView = ({ movie, onBackClick }) => {
   return (
     <div>
       <div>
-        <span>Title:</span>
-        <span>{movie.title}</span>
+        {/* <span>Title: </span> */}
+        <span class="h2">
+          <center>{movie.title}</center>
+        </span>
       </div>
       <div>
-        <span>Description:</span>
+        <span>
+          <strong>Description: </strong>
+        </span>
         <span>{movie.description}</span>
       </div>
       <div>
-        <span>Year:</span>
+        <span>
+          <strong>Year: </strong>
+        </span>
         <span>{movie.year}</span>
       </div>
+      <br />
       <div>
-        <img src={movie.imgUrl} width="250" height="300" />
+        <img
+          src={movie.imgUrl}
+          width="250"
+          height="300"
+          class="rounded mx-auto d-block"
+        />
       </div>
+      <br />
       <div>
-        <span>Genre:</span>
+        <span>
+          <strong>Genre: </strong>
+        </span>
         <span>{movie.genre.gName}</span>
       </div>
       <div>
-        <span>Director:</span>
+        <span>
+          <strong>Director: </strong>
+        </span>
         <span>{movie.director.dName}</span>
         <br />
-        <span>Director Bio:</span>
+        <span>
+          <strong>Director Bio: </strong>
+        </span>
         <span>{movie.director.dBio}</span>
         <br />
-        <span>Director Birth:</span>
+        <span>
+          <strong>Director Birth: </strong>
+        </span>
         <span>{movie.director.dYear}</span>
       </div>
-      <button onClick={onBackClick}> Back </button>
+      <br />
+      <Button onClick={onBackClick}>Back</Button>
     </div>
   );
 };
