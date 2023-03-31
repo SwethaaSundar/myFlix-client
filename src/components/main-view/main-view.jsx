@@ -6,7 +6,7 @@ import { SignupView } from "../signnup-view/signup-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Col, Button, Row } from "react-bootstrap";
-import Navbar from "react-bootstrap/Navbar";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import { auto, right } from "@popperjs/core";
 
@@ -30,6 +30,14 @@ export const MainView = () => {
 
   return (
     <BrowserRouter>
+      <NavigationBar
+        user={user}
+        onLoggedOut={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
+        }}
+      />
       <Row className="justify-content-md-center">
         <Routes>
           {/* signup */}
@@ -40,10 +48,11 @@ export const MainView = () => {
                 {user ? (
                   <Navigate to="/" />
                 ) : (
-                  <Col md={5}>
+                  <Col md={5} className="square border border-primary rounded">
                     <br />
                     <h2>Signup</h2>
                     <SignupView />
+                    <br />
                   </Col>
                 )}
               </>
@@ -57,7 +66,7 @@ export const MainView = () => {
                 {user ? (
                   <Navigate to="/" />
                 ) : (
-                  <Col md={5}>
+                  <Col md={5} className="square border border-primary rounded">
                     <br />
                     <h2>Login</h2>
                     <LoginView
@@ -66,6 +75,7 @@ export const MainView = () => {
                         setToken(token);
                       }}
                     />
+                    <br />
                   </Col>
                 )}
               </>
@@ -80,29 +90,11 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
                   <Col>
-                    <Button
-                      onClick={() => {
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                      }}
-                    >
-                      Logout
-                    </Button>
                     <h2>The movie list is empty</h2>
                   </Col>
                 ) : (
                   // Movie view
                   <Col md={8}>
-                    <Button
-                      onClick={() => {
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                      }}
-                    >
-                      Logout
-                    </Button>
                     <br />
                     <MovieView movies={movies} />
                   </Col>
@@ -119,32 +111,10 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
                   <Col>
-                    <Button
-                      onClick={() => {
-                        setUser(null);
-                        setToken(null);
-                        localStorage.clear();
-                      }}
-                    >
-                      Logout
-                    </Button>
                     <h2>The movie list is empty</h2>
                   </Col>
                 ) : (
                   <>
-                    <Row>
-                      <Col>
-                        <Button
-                          onClick={() => {
-                            setUser(null);
-                            setToken(null);
-                            localStorage.clear();
-                          }}
-                        >
-                          Logout
-                        </Button>
-                      </Col>
-                    </Row>
                     <Row className="justify-content-md-center">
                       <Col md={5}>
                         <br />
