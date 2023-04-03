@@ -3,10 +3,11 @@ import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signnup-view/signup-view";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Col, Button, Row } from "react-bootstrap";
+// import Row from "react-bootstrap/Row";
+// import Col from "react-bootstrap/Col";
+import { Col, Row } from "react-bootstrap";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import { auto, right } from "@popperjs/core";
 
@@ -128,6 +129,20 @@ export const MainView = () => {
                       </Col>
                     ))}
                   </>
+                )}
+              </>
+            }
+          />
+          {/* Profile view */}
+          <Route
+            path="/profile"
+            element={
+              <>
+                {!user ? (
+                  <Navigate to="/login" replace />
+                ) : (
+                  // Profile view
+                  <ProfileView user={user} movie={movies} />
                 )}
               </>
             }

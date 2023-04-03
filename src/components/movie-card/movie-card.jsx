@@ -2,7 +2,10 @@
 import PropType from "prop-types";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { MovieCard } from "../movie-card/movie-card";
+
 export const MovieCard = ({ movie }) => {
+  console.log(movie);
   return (
     <Card className="h-80 text-center" style={{ width: "20rem" }}>
       <Card.Img variant="top" src={movie.imgUrl} />
