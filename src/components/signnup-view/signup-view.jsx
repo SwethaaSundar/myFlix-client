@@ -6,6 +6,7 @@ export const SignupView = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -69,7 +70,7 @@ export const SignupView = () => {
       </Form.Group>
       <br />
       <Button variant="primary" type="submit">
-        Submit
+        Sign up
       </Button>
     </Form>
   );

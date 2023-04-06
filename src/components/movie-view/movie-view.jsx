@@ -1,7 +1,83 @@
 import PropType from "prop-types";
-import { Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
+import { useParams } from "react-router";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { MovieCard } from "../movie-card/movie-card";
 import "./movie-view.scss";
-export const MovieView = ({ movie, onBackClick }) => {
+
+export const MovieView = ({ movies }) => {
+  const { movieId } = useParams();
+  const movie = movies.find((m) => m._id === movieId);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+  const [favoriteMovies, setFavoriteMovies] = useState(
+    user.FavMovies ? user.FavMovies : []
+  );
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const addFavoriteMovie = (event) => {
+    event.preventDefault();
+    fetch(
+      `https://myflixdb-0sx9.onrender.com/users/${user.Username}/movies/${movie._id}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFavoriteMovies(data.FavMovies);
+
+        localStorage.setItem("user", JSON.stringify(data));
+        alert("Added to Favorite movies!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+  const deleteFavoriteMovie = (event) => {
+    event.preventDefault();
+    event.preventDefault();
+    fetch(
+      `https://myflixdb-0sx9.onrender.com/users/${user.Username}/movies/${movie._id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFavoriteMovies(favoriteMovies.filter((favM) => favM !== movie._id));
+
+        localStorage.setItem("user", JSON.stringify(data));
+        alert("Deleted from favorite Movies!");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+
+  const toggleMovie = () => {
+    const favoriteMoviesValues = Object.values(favoriteMovies);
+    favoriteMoviesValues.some((favM) => favM === movie._id)
+      ? setIsFavorite(true)
+      : setFavoriteMovies(false);
+  };
+
+  useEffect(() => {
+    toggleMovie();
+  }, []);
+
   return (
     <div>
       <div>
@@ -54,7 +130,31 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>{movie.director.dYear}</span>
       </div>
       <br />
-      <Button onClick={onBackClick}>Back</Button>
+      <Link to={`/`}>
+        <Button className="back-button">Back</Button>
+        {!isFavorite && (
+          <Button onClick={addFavoriteMovie} variant="success">
+            Add to favorite
+          </Button>
+        )}
+        {isFavorite && (
+          <Button onClick={deleteFavoriteMovie} variant="danger">
+            Remove from Favorite
+          </Button>
+        )}
+      </Link>
+      <br />
+      <br />
+      <h2 className="primary"> Similar Movies</h2>
+      <Row>
+        {movies
+          .filter((m) => m.genre.name === movie.genre.name)
+          .map((m) => (
+            <Col md={4} key={movie._id} className="h-80">
+              <MovieCard movie={m} user={user} token={token} />
+            </Col>
+          ))}
+      </Row>
     </div>
   );
 };
