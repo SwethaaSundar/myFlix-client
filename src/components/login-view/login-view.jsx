@@ -8,7 +8,7 @@ import { Col, Card } from "react-bootstrap";
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const handleSubmit = (event) => {
     // this prevents the default behavior of the form which is to reload the entire page
     event.preventDefault();
@@ -33,7 +33,7 @@ export const LoginView = ({ onLoggedIn }) => {
           localStorage.setItem("token", data.token);
           onLoggedIn(data.user, data.token);
         } else {
-          alert("No such user");
+          alert("Login failed");
         }
       })
       .catch((e) => {
