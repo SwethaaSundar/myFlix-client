@@ -39,6 +39,7 @@ export const MainView = () => {
           localStorage.clear();
         }}
       />
+      <br />
       <Row className="justify-content-md-center">
         <Routes>
           {/* signup */}
@@ -51,7 +52,7 @@ export const MainView = () => {
                 ) : (
                   <Col md={5} className="square border border-primary rounded">
                     <br />
-                    <h2>Signup</h2>
+                    <h2>Sign up here</h2>
                     <SignupView />
                     <br />
                   </Col>

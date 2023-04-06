@@ -1,0 +1,26 @@
+$primary: #2f4858;
+$accent: #f8d97b;
+$primary-darker: #1d2d37;
+
+.navbar {
+  width: auto;
+  background-color: $accent;
+}
+
+a.logo,
+a.logo:visited {
+  color: $primary;
+  font-weight: bold;
+}
+
+a.logo:hover,
+a.logo:active {
+  color: $primary-darker;
+}
+
+a.logout-link {
+  color: $primary;
+}
+
+// Imports React Bootstrap utility classes
+@import "~bootstrap/scss/bootstrap.scss";

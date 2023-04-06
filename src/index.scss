@@ -1,5 +1,19 @@
-$color: steelblue;
+// $color: steelblue;
 
-.my-flix {
-  color: $color;
+// .my-flix {
+//   color: $color;
+// }
+
+$primary: #2f4858;
+$secondary: #d6d6d6;
+// $accent: #f7be16;
+
+// Cards
+.card {
+  color: $primary;
+  .card-body {
+    background-color: white;
+  }
 }
+
+@import "~bootstrap/scss/bootstrap.scss";
