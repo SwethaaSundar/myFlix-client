@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Row, Col, CardGroup, Card } from "react-bootstrap";
 import { Deregister } from "./deregister";
 
-export const UpdateProfile = ({ storedToken, storedUser }) => {
+export const UpdateProfile = ({ storedToken, storedUser, onLoggedOut }) => {
   const [token, setToken] = useState(storedToken ? storedToken : null);
   const [user, setUser] = useState(storedUser ? storedUser : null);
 
@@ -46,10 +46,11 @@ export const UpdateProfile = ({ storedToken, storedUser }) => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log(data);
+          // console.log(data);
           alert("Changes saved");
           updateUser(username);
-          console.log(username);
+          onLoggedOut();
+          // console.log(username);
         } else {
           alert("Something went wrong");
         }

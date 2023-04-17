@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 export const MovieCard = ({ movie }) => {
   console.log(movie);
   return (
-    <Card className="h-80 text-center" style={{ width: "20rem" }}>
-      <Card.Img variant="top" src={movie.imgUrl} />
+    // <Card className="h-80 text-center" style={{ width: "20rem" }}>
+    <Card border="light" className="h-100 bg-light bg-opacity-75 shadow">
+      <Card.Img className="mb-3 img-fluid" variant="top" src={movie.imgUrl} />
       <Card.Body>
         <Card.Title>{movie.title}</Card.Title>
         <Card.Text>Director : {movie.director.dName}</Card.Text>
