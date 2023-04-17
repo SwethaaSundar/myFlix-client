@@ -3,6 +3,7 @@ import { Row, Col, Button } from "react-bootstrap";
 export const Deregister = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
+
   const handleDeregister = () => {
     const userWarning = confirm(
       "are you sure you want to delete your account?"
@@ -20,6 +21,7 @@ export const Deregister = () => {
           .then((response) => {
             if (response.ok) {
               alert("Account successfully deleted");
+              onLoggedOut();
               localStorage.clear();
               window.location.reload();
             } else {

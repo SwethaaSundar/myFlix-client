@@ -52,7 +52,7 @@ export const LoginView = ({ onLoggedIn }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              minlength="5"
+              minLength="5"
               placeholder="Username"
               pattern="[a-zA-Z0-9]+"
             />

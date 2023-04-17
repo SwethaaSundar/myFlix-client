@@ -5,7 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signnup-view/signup-view";
 // import Row from "react-bootstrap/Row";
 // import Col from "react-bootstrap/Col";
-import { Col, Row } from "react-bootstrap";
+import { Form, Col, Row } from "react-bootstrap";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -18,6 +18,8 @@ export const MainView = () => {
   // const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [typedChar, setTypedChar] = useState("");
+  const [searchedMovies, setSearchedMovies] = useState([]);
 
   useEffect(() => {
     if (!token) return;
@@ -29,6 +31,50 @@ export const MainView = () => {
       .then((data) => setMovies(data));
   }, [token]);
 
+  useEffect(() => {
+    if (typedChar && typedChar.length > 0) {
+      const searchedMoviesData = movies.filter(
+        (m) =>
+          m.title
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              typedChar
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim()
+            ) ||
+          m.genre.gName
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              typedChar
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim()
+            ) ||
+          m.director.dName
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(
+              typedChar
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim()
+            )
+      );
+      setSearchedMovies(searchedMoviesData);
+    } else {
+      setSearchedMovies([]);
+    }
+  }, [typedChar]);
+
   return (
     <BrowserRouter>
       <NavigationBar
@@ -37,6 +83,13 @@ export const MainView = () => {
           setUser(null);
           setToken(null);
           localStorage.clear();
+        }}
+        onSearch={(query) => {
+          setViewMovies(
+            movies.filter((movie) =>
+              movie.title.toLowerCase().includes(query.toLowerCase())
+            )
+          );
         }}
       />
       <br />
@@ -109,6 +162,25 @@ export const MainView = () => {
             path="/"
             element={
               <>
+                <Row className="justify-content-md-center">
+                  <Col md={5} sm={8}>
+                    <br />
+                    <h2>List of Disney princess movies</h2>
+                  </Col>
+                </Row>
+                <Row className="justify-content-md-center m-0">
+                  <Col md={8} lg={4} className="mb-3 mb-md-5">
+                    <Form>
+                      <Form.Control
+                        type="text"
+                        placeholder="Title, Genre or Director"
+                        value={typedChar}
+                        onChange={(e) => setTypedChar(e.target.value)}
+                        className="bg-light shadow-sm"
+                      />
+                    </Form>
+                  </Col>
+                </Row>
                 {!user ? (
                   <Navigate to="/login" replace />
                 ) : movies.length === 0 ? (
@@ -117,18 +189,24 @@ export const MainView = () => {
                   </Col>
                 ) : (
                   <>
-                    <Row className="justify-content-md-center">
-                      <Col md={5}>
-                        <br />
-                        <h2>List of Disney princess movies</h2>
-                      </Col>
-                    </Row>
-                    {movies.map((movie) => (
-                      <Col key={movie._id} md={4}>
-                        <br />
-                        <MovieCard movie={movie} />
-                      </Col>
-                    ))}
+                    {searchedMovies && searchedMovies.length > 0
+                      ? searchedMovies.map((movie) => (
+                          <Col md={4} lg={3} key={movie._id} className="mb-5">
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))
+                      : movies.map((movie) => (
+                          <Col
+                            md={4}
+                            lg={3}
+                            sm={6}
+                            key={movie._id}
+                            className="mb-5"
+                          >
+                            <br />
+                            <MovieCard movie={movie} />
+                          </Col>
+                        ))}
                   </>
                 )}
               </>
@@ -143,7 +221,15 @@ export const MainView = () => {
                   <Navigate to="/login" replace />
                 ) : (
                   // Profile view
-                  <ProfileView user={user} movie={movies} />
+                  <ProfileView
+                    user={user}
+                    movie={movies}
+                    onLoggedOut={() => {
+                      setUser(null);
+                      setToken(null);
+                      localStorage.clear();
+                    }}
+                  />
                 )}
               </>
             }

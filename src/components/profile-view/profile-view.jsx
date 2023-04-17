@@ -14,7 +14,15 @@ export const ProfileView = ({ user, movie }) => {
     <Container>
       <Row className="mb-5">
         <UserInfo user={user} />
-        <UpdateProfile storedToken={storedToken} storedUser={storedUser} />
+        <UpdateProfile
+          storedToken={storedToken}
+          storedUser={storedUser}
+          onLoggedOut={() => {
+            setUser(null);
+            setToken(null);
+            localStorage.clear();
+          }}
+        />
       </Row>
       <Row>
         {" "}

@@ -1,5 +1,5 @@
 import PropType from "prop-types";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Toast, Form } from "react-bootstrap";
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ export const MovieView = ({ movies }) => {
     user.FavMovies ? user.FavMovies : []
   );
   const [isFavorite, setIsFavorite] = useState(false);
-
+  //Add movie to Favorite list
   const addFavoriteMovie = (event) => {
     event.preventDefault();
     fetch(
@@ -32,7 +32,7 @@ export const MovieView = ({ movies }) => {
       .then((response) => response.json())
       .then((data) => {
         setFavoriteMovies(data.FavMovies);
-
+        // setShowA(!showA);
         localStorage.setItem("user", JSON.stringify(data));
         alert("Added to Favorite movies!");
         window.location.reload();
@@ -41,6 +41,8 @@ export const MovieView = ({ movies }) => {
         console.log("error", error);
       });
   };
+
+  // Delete movie from Favorite list
   const deleteFavoriteMovie = (event) => {
     event.preventDefault();
     event.preventDefault();
